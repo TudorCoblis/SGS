@@ -27,7 +27,7 @@ namespace MobileApp.Data
         {
             return _database.Table<Enrollment>()
             .Where(i => i.EnrollmentID == id)
-           .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync();
         }
         public Task<int> SaveEnrollmentAsync(Enrollment slist)
         {

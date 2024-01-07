@@ -31,7 +31,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <Button Grid.Row="2" Grid.Column="0" Text="Add to Enrollments"
+                <Button Grid.Row="2" Grid.Column="0" Text="Inscrie-te!"
 MaximumWidthRequest="200"
  Clicked="OnAddButtonClicked" />
             </Grid>

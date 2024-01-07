@@ -14,6 +14,7 @@ namespace MobileApp.Models
         public int ID { get; set; }
         [ForeignKey(typeof(Enrollment))]
         public int EnrollmentID { get; set; }
+        [ForeignKey(typeof(Course))]
         public int CourseID { get; set; }
 
     }

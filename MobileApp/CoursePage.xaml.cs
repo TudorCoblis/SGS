@@ -1,4 +1,4 @@
-using MobileApp.Models;
+﻿using MobileApp.Models;
 
 namespace MobileApp;
 
@@ -29,19 +29,31 @@ public partial class CoursePage : ContentPage
     }
     async void OnAddButtonClicked(object sender, EventArgs e)
     {
-        Course c;
         if (listView.SelectedItem != null)
         {
-            c = listView.SelectedItem as Course;
-            var lc = new CourseEnrollment()
-            {
-                EnrollmentID = enr.EnrollmentID,
-                CourseID = c.CourseID
-            };
-            await App.Database.SaveCourseEnrollmentAsync(lc);
-            c.CourseEnrollments = new List<CourseEnrollment> { lc };
-            await Navigation.PopAsync();
-        }
+            Course c = listView.SelectedItem as Course;
 
+            if (c != null)
+            {
+                var lc = new CourseEnrollment()
+                {
+                    EnrollmentID = enr.EnrollmentID,
+                    CourseID = c.CourseID
+                };
+
+                await App.Database.SaveCourseEnrollmentAsync(lc);
+
+                if (c.CourseEnrollments == null)
+                {
+                    c.CourseEnrollments = new List<CourseEnrollment>();
+                }
+
+                c.CourseEnrollments.Add(lc);
+
+                listView.ItemsSource = await App.Database.GetCourseEnrollmentsAsync(enr.EnrollmentID);
+
+                await Navigation.PopAsync();
+            }
+        }
     }
 }

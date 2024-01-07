@@ -32,6 +32,7 @@ namespace WebApp.Pages.Courses
             CourseData.Courses = await _context.Course
             .Include(i => i.Enrollments)
             .ThenInclude(e => e.Student)
+            .Include(i => i.Professor)
             .OrderBy(i => i.CourseName)
             .ToListAsync();
             if (id != null)
@@ -42,7 +43,6 @@ namespace WebApp.Pages.Courses
                     .SelectMany(c => c.Enrollments)
                     .ToList();
 
-                // Opțional: Filtrare după studentID (dacă este furnizat)
                 if (studentID != null)
                 {
                     CourseData.Enrollments = CourseData.Enrollments

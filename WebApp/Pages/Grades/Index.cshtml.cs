@@ -19,13 +19,33 @@ namespace WebApp.Pages.Grades
             _context = context;
         }
 
-        public IList<Grade> Grade { get;set; } = default!;
+        public IList<Grade> Grade { get; set; } = default!;
+        public string StudentIDFilter { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string searchString, string sortOrder)
         {
-            if (_context.Grade != null)
+            ViewData["IDSortParam"] = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+
+            if (!String.IsNullOrEmpty(searchString))
             {
-                Grade = await _context.Grade.Include(b=>b.Enrollment).ToListAsync();
+                StudentIDFilter = searchString;
+
+                Grade = await _context.Grade
+                    .Include(g => g.Enrollment)
+                    .Where(g => g.Enrollment.StudentID.HasValue && g.Enrollment.StudentID.Value.ToString().Contains(searchString))
+                    .ToListAsync();
+            }
+            else
+            {
+                Grade = await _context.Grade
+                    .Include(g => g.Enrollment)
+                    .OrderBy(g => g.Enrollment.StudentID)
+                    .ToListAsync();
+            }
+
+            if (sortOrder == "id_desc")
+            {
+                Grade.Reverse();
             }
         }
     }

@@ -21,11 +21,36 @@ namespace WebApp.Pages.Enrollments
 
         public IList<Enrollment> Enrollment { get;set; } = default!;
 
-        public async Task OnGetAsync()
+        public string StudentNameFilter { get; set; }
+
+        public async Task OnGetAsync(string searchString, string sortOrder)
         {
-            if (_context.Enrollment != null)
+            ViewData["NameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            if (!String.IsNullOrEmpty(searchString))
             {
-                Enrollment = await _context.Enrollment.Include(b=>b.Course).Include(b=>b.Student).ToListAsync();
+                StudentNameFilter = searchString;
+
+                Enrollment = await _context.Enrollment
+                    .Include(g => g.Student)
+                    .Where(g =>
+                        (g.Student.FirstName + " " + g.Student.LastName).Contains(searchString) ||
+                        g.Student.FirstName.Contains(searchString) ||
+                        g.Student.LastName.Contains(searchString)
+                    )
+                    .ToListAsync();
+            }
+            else
+            {
+                Enrollment = await _context.Enrollment
+                    .Include(g => g.Student)
+                    .OrderBy(g => g.Student.LastName)
+                    .ToListAsync();
+            }
+
+            if (sortOrder == "id_desc")
+            {
+                Enrollment.Reverse();
             }
         }
     }

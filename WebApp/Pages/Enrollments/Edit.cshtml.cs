@@ -40,7 +40,7 @@ namespace WebApp.Pages.Enrollments
             }
             Enrollment = enrollment;
             ViewData["CourseID"] = new SelectList(_context.Set<Course>(), "CourseID", "CourseName");
-            ViewData["StudentID"] = new SelectList(_context.Set<Student>(), "StudentID", "FullName");
+            ViewData["StudentID"] = new SelectList(_context.Set<Student>(), "StudentID", "FullName2");
             return Page();
         }
 

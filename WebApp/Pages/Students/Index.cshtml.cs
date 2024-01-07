@@ -21,11 +21,30 @@ namespace WebApp.Pages.Students
 
         public IList<Student> Student { get;set; } = default!;
 
-        public async Task OnGetAsync()
+        public string StudentEmailFilter { get; set; }
+
+        public async Task OnGetAsync(string searchString, string sortOrder)
         {
-            if (_context.Student != null)
+            ViewData["EmailSortParam"] = String.IsNullOrEmpty(sortOrder) ? "email_desc" : "";
+
+            if (!String.IsNullOrEmpty(searchString))
             {
-                Student = await _context.Student.ToListAsync();
+                StudentEmailFilter = searchString;
+
+                Student = await _context.Student
+                        .Where(s => s.Email.Contains(searchString))
+                        .ToListAsync();
+            }
+            else
+            {
+                Student = await _context.Student
+                    .OrderBy(s => s.Email)
+                    .ToListAsync();
+            }
+
+            if (sortOrder == "email_desc")
+            {
+                Student.Reverse();
             }
         }
     }

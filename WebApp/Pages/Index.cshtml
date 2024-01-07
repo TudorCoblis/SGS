@@ -4,7 +4,41 @@
     ViewData["Title"] = "Home page";
 }
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+    }
+
+    .text-center {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .welcome-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+        margin-top: 20px;
+    }
+</style>
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="welcome-container">
+        <h1 class="display-4">Bine ai venit!</h1>
+        <p>In aceasta aplicatie ai acces la notele tale si la toate informatiile legate de cursuri.</p>
+
+        <!-- Adaugă calea către siglă și modifică dimensiunile după necesitate -->
+        <img src="~/Imagini/sigla.png" alt="Sigla">
+
+    </div>
 </div>
+
